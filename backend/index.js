@@ -14,11 +14,18 @@ app.use(cors());
 // Endpoint para lista de jogos (GetAppList) — Steam não exige API key aqui
 app.get("/apps", async (req, res) => {
   try {
-    const response = await fetch(
+    const { random } = req.query;
+    let response = await fetch(
       "https://api.steampowered.com/ISteamApps/GetAppList/v2/"
     );
-    const data = await response.json();
-    res.json(data);
+
+    if (random) {
+      response = await response.json();
+      const randomApps = response.applist.apps.sort(() => Math.random() - 0.5);
+      response.applist.apps = randomApps;
+    }
+
+    res.json(response);
   } catch (err) {
     res.status(500).json({ error: "Erro ao buscar lista de jogos" });
   }

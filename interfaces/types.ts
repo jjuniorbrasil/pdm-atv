@@ -46,6 +46,10 @@ export interface SteamAppDetailsResponse {
         thumbnail: string;
         webm: { "480": string; max: string };
       }[];
+      metacritic?: {
+        score: number;
+        url: string;
+      };
       // ... tem mais, mas esses são os principais
     };
   };
